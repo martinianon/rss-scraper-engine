@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-  <title>Ministerio Público de Río Negro - Novedades</title>
+  <title>Ministerio Público de Río Negro</title>
   <link>https://ministeriopublico.jusrionegro.gov.ar/comunicacion.php</link>
-  <description>Feed RSS automatizado</description>
+  <description>Feed RSS automatizado para Ministerio Público de Río Negro</description>
   <language>es-ar</language>
 
 </channel>
