@@ -1,8 +1,8 @@
-name: Generador Automático de Feed RSS
+name: Generador Automático Multisitio de Feeds RSS
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 * * * *' # Se ejecuta cada 1 hora
   workflow_dispatch:
 
 jobs:
@@ -24,17 +24,15 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-      - name: Ejecutar script raspador
+      - name: Ejecutar script unificado
         run: python generate_feed.py
 
-      - name: Guardar cambios del archivo feed.xml en el repositorio
+      - name: Guardar todos los feeds (.xml) en el repositorio
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f feed.xml ]; then
-            git add feed.xml
-            git commit -m "bot: Actualización de noticias en feed.xml" || exit 0
+          if ls *.xml 1> /dev/null 2>&1; then
+            git add *.xml
+            git commit -m "bot: Actualización automática de feeds RSS" || exit 0
             git push
-          else
-            echo "El archivo feed.xml no fue encontrado para realizar el commit."
           fi
