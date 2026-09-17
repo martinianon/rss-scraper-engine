@@ -24,8 +24,8 @@ def parse_articles(html):
     soup = BeautifulSoup(html, "html.parser")
     articles = []
 
-    # Buscamos las cajas de noticias en el HTML del sitio
-    boxes = soup.select("div.col-md-9.well.well-sm")
+    # Buscamos las cajas de noticias (intentamos varios selectores por si cambia la maquetación)
+    boxes = soup.select("div.col-md-9.well.well-sm") or soup.select("div.well")
 
     for box in boxes:
         # Extraer Título y Enlace
@@ -99,13 +99,12 @@ def main():
     articles = parse_articles(html)
     print(f"Noticias encontradas: {len(articles)}")
 
-    if articles:
-        rss_xml = generate_rss_xml(articles)
-        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            f.write(rss_xml)
-        print(f"Archivo {OUTPUT_FILE} generado exitosamente.")
-    else:
-        print("No se encontraron noticias para generar el feed.")
+    # SIEMPRE generamos y guardamos el archivo, aunque articles esté vacío
+    rss_xml = generate_rss_xml(articles)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write(rss_xml)
+    
+    print(f"Archivo {OUTPUT_FILE} generado/actualizado exitosamente.")
 
 if __name__ == "__main__":
     main()
